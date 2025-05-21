@@ -1,7 +1,7 @@
-function getProducts(page) {
+function getProducts() {
     document.getElementById('cardHeader').innerHTML = '<h4>Listado de productos</h4>'
     document.getElementById('info').innerHTML = ''
-    fetch("https://reqres.in/api/unknown?page="+page, {
+    fetch("https://fakestoreapi.com/products", {
         method: "GET",
         headers: {
             "Content-type": "application/json",
@@ -26,49 +26,29 @@ function getProducts(page) {
                     <thead>
                         <tr>
                         <th scope="col">#</th>
-                        <th scope="col">name</th>
-                        <th scope="col">year</th>
-                        <th scope="col">color</th>
-                        <th scope="col">pantone</th>
-                        <th scope="col">Action</th>
+                        <th scope="col">title</th>
+                        <th scope="col">precio</th>
+                        <th scope="col">descripcion</th>
+                        <th scope="col">categoria</th>
+                        <th scope="col">imagen</th>
                         </tr>
                     </thead>
                     <tbody>
             `
-                response.body.data.forEach(product => {
+                response.body.forEach(product => {
                     listProducts = listProducts.concat(`
                     <tr>
                         <td>${product.id}</td>
-                        <td>${product.name}</td>
-                        <td>${product.year}</td>
-                        <td><input type="color" value="${product.color}"></td>
-                        <td>${product.pantone_value}</td>
+                        <td>${product.title}</td>
+                        <td>${product.price}</td>
+                        <td>${product.description}</td>
+                        <td>${product.category}</td>
+                        <td><img src="${product.category}" class="img-thumbnail" alt="Imagen de pruductos"></td>
                         <td><button type="button" class="btn btn-outline-info" onclick="showInfoProducts('${product.id}')">View</button></td>
 
                     </tr>
                     `)
                 })
-                listProducts = listProducts.concat(`
-                </tbody>
-            </table>
-            <nav aria-label="Page navigation example">
-                  <ul class="pagination justify-content-center">
-                    <li class="page-item">
-                      <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                      </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#" onclick="getProducts('1')"">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#" onclick="getProducts('2')">2</a></li>
-                    <li class="page-item">
-                      <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                      </a>
-                    </li>
-                  </ul>
-                </nav>
-                `)
-
                 document.getElementById("info").innerHTML = listProducts
 
             }
@@ -76,11 +56,10 @@ function getProducts(page) {
 
 }
 function showInfoProducts(productId) {
-    fetch("https://reqres.in/api/unknown/" + productId, {
+    fetch("https://fakestoreapi.com/products/" + productId, {
         method: "GET",
         headers: {
             "Content-type": "application/json",
-            'x-api-key': 'reqres-free-v1'
         },
     })
         .then((result) => {
@@ -96,7 +75,7 @@ function showInfoProducts(productId) {
 
         .then((response) => {
             if (response.status === 200) {
-                showModalProducts(response.body.data)
+                showModalProducts(response.body)
             }
             else {
                 document.getElementById('info').innerHTML = '<h3>No se encontro el producto</h3>'
@@ -115,17 +94,17 @@ function showModalProducts(product){
           </div>
           <div class="modal-body">
             <div class="card">
-              <input class="card-img-top" type="color" value=${product.color}>
+              <img src="${product.image}" class="card-img-top" alt="imagen producto">
               <div class="card-body">
                 <h5 class="card-title">Product Info</h5>
-                <p class="card-text">Name :${product.name}</p>
-                <p class="card-text">Year :${product.year}</p>
-                <p class="card-text">pantone value :${product.pantone_value}</p>
+                <p class="card-text">Titulo :${product.title}</p>
+                <p class="card-text">Description :${product.description}</p>
+                <p class="card-text">categoria:${product.category}</p>
               </div>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secundary" style="background-color:${product.color}" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secundary" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
