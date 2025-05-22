@@ -1,5 +1,4 @@
 🧩Actividad Práctica: Desarrollo de Interfaz Web con API
-Este proyecto es una aplicación web estática construida solo con HTML y CSS. Incluye tres interfaces principales:
 
 Este proyecto se basa en el desarrolo de una interfaz web inicial que permita gestionar usuarios, productos y carritos de compras.
 Para esto se utilizaran tecnologias como bootstrap y el consumo de una API externa.
